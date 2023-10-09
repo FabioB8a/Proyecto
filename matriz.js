@@ -23,24 +23,24 @@ function crearCeldaInput() {
 function crearCeldaValoresDiagonales(topValorInicial, bottomValorInicial) {
     const kakuroCell = document.createElement("div");
     kakuroCell.className = "kakuro-cell";
-    
+
     // Creación de valores diagonales
     const topNumber = document.createElement("div");
     topNumber.className = "kakuro-top-number";
     topNumber.contentEditable = true; // Permitir edición de número
     topNumber.textContent = topValorInicial.toString(); // Valor inicial
-    
+
     const bottomNumber = document.createElement("div");
     bottomNumber.className = "kakuro-bottom-number";
     bottomNumber.contentEditable = true; // Permitir edición de número
     bottomNumber.textContent = bottomValorInicial.toString(); // Valor inicial
-    
+
     // Agregar números a la celda Kakuro
     kakuroCell.appendChild(topNumber);
     kakuroCell.appendChild(bottomNumber);
-  
+
     return kakuroCell;
-  }
+}
 
 function generateKakuroBoard(rows, columns) {
     const board = [];
@@ -91,7 +91,7 @@ function displayKakuroBoard(board) {
         for (let j = 0; j < board[i].length; j++) {
             const cell = document.createElement("td");
             const boardElement = board[i][j];
-            
+
             if (boardElement instanceof HTMLInputElement) {
                 // Si es un campo de entrada (input), agregalo a la celda
                 cell.appendChild(boardElement);
@@ -108,14 +108,15 @@ function displayKakuroBoard(board) {
     }
 }
 
-
+// Quitar el comentario
+/*
 const { rows, columns } = getQueryParams();
 const kakuroBoard = generateKakuroBoard(rows, columns);
 
 // Impresión y display del tablero Kakuro
 console.log(kakuroBoard);
 displayKakuroBoard(kakuroBoard);
-
+*/
 
 
 
@@ -124,7 +125,74 @@ displayKakuroBoard(kakuroBoard);
 
 // Funcionalidad de verificacion del tablero y movimientos
 
+const container = document.getElementById('containerTextoChequeo');
+const textoChequeo = document.getElementById('textoChequeo');
 const verifyButton = document.getElementById("verify-button");
-verifyButton.addEventListener("click", function() {
+
+verifyButton.addEventListener("click", function () {
     console.log("El botón 'Chequear Errores' ha sido presionado.");
+
+    // Cambia la visibilidad a "visible"
+    container.style.visibility = 'visible';
+
+    // Cambia el texto
+    textoChequeo.textContent = 'Esoooo!';
+
+    // Después de 5 segundos, vuelve a ocultar la div y restaura el texto
+    setTimeout(() => {
+        container.style.visibility = 'hidden';
+        textoChequeo.textContent = '¿Lograrás solucionarlo?';
+    }, 3000);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Kakuro de ejemplo para pruebas
+function tableroKakuroPruebas(rows, columns) {
+    const board = [];
+    for (let i = 0; i < rows; i++) {
+        const row = [];
+        for (let j = 0; j < columns; j++) {
+
+            // 1. Celda de input
+            row.push(crearCeldaInput());
+
+        }
+        board.push(row);
+    }
+
+    // Crear pistas fijas
+    board[0][0] = crearCeldaValoresDiagonales(1, 2);
+    board[1][1] = crearCeldaValoresDiagonales(1, 2);
+    board[2][2] = crearCeldaValoresDiagonales(1, 2);
+
+
+    return board;
+}
+
+
+const { rows, columns } = getQueryParams();
+const kakuroBoard = tableroKakuroPruebas(5, 5);
+
+// Impresión y display del tablero Kakuro
+console.log(kakuroBoard);
+displayKakuroBoard(kakuroBoard);

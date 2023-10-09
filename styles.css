@@ -89,3 +89,7 @@ input[type="number"] {
 .botonVerificar {
     margin-top: 35px;
 }
+
+.hidden {
+    visibility: hidden;
+}
