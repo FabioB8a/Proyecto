@@ -1,26 +1,39 @@
 // matrix.js
 
-// Función para obtener los valores de filas y columnas de la URL
+// Function to get query parameters
 function getQueryParams() {
     const queryParams = new URLSearchParams(window.location.search);
     const rows = parseInt(queryParams.get("rows"));
     const columns = parseInt(queryParams.get("columns"));
+    console.log(rows);
+    console.log(columns);
     return { rows, columns };
 }
 
-// Obtén los valores de filas y columnas de la URL
-const { rows, columns } = getQueryParams();
+function displayMatrix(matrix) {
+    const table = document.getElementById("matrix-table");
+    for (let i = 0; i < matrix.length; i++) {
+        const row = document.createElement("tr");
+        for (let j = 0; j < matrix[i].length; j++) {
+            const cell = document.createElement("td");
+            cell.textContent = matrix[i][j];
+            row.appendChild(cell);
+        }
+        table.appendChild(row);
+    }
+}
 
-// Crear la matriz con las filas y columnas especificadas
+// Get rows and columns from the URL
+const { rows, columns } = getQueryParams();
+// Create the matrix with the specified rows and columns
 const matrix = [];
 for (let i = 0; i < rows; i++) {
     matrix.push([]);
     for (let j = 0; j < columns; j++) {
-        // Aquí puedes inicializar los valores de la matriz según tus necesidades
-        // En este ejemplo, simplemente se llena con ceros.
+        // Initialize matrix values as needed
+        // In this example, it's initialized with zeros.
         matrix[i][j] = 0;
     }
 }
-
-// Exporta la matriz para que esté disponible en otros scripts si es necesario
-export { matrix };
+console.log(matrix);
+displayMatrix(matrix);

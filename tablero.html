@@ -4,30 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <script src="matriz.js"></script>
+    
     <title>Juego de Kakuro</title>
 </head>
 <body>
+
     <body>
         <div class="container">
             <h1>Juego de Kakuro</h1>
-            <!-- Aquí puedes agregar contenido relacionado con el juego -->
+            <!-- Add content related to the game -->
     
-            <!-- Espacio para mostrar la matriz -->
-            <div id="matrix-container"></div>
+            <!-- Space to display the matrix -->
+            <div id="matrix-container">
+                <table id="matrix-table"></table>
+            </div>
         </div>
+        <script src="matriz.js"></script>
     
-        <script>
-            // Importa la matriz desde matrix.js
-            import { matrix } from './matrix.js';
-    
-            // Puedes acceder y usar la matriz en este script
-            console.log(matrix);
-    
-            // Puedes mostrar la matriz en la página o hacer cualquier otra operación con ella
-            const matrixContainer = document.getElementById("matrix-container");
-            matrixContainer.textContent = JSON.stringify(matrix);
-        </script>
     </body>
 
     
