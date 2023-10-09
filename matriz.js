@@ -1,5 +1,3 @@
-// matrix.js
-
 // Obtener filas y columna
 function getQueryParams() {
     const queryParams = new URLSearchParams(window.location.search);
@@ -10,14 +8,14 @@ function getQueryParams() {
     return { rows, columns };
 }
 
-// Function to generate a Kakuro board
+// Función apra generar el Kakuro
 function generateKakuroBoard(rows, columns) {
     const board = [];
     for (let i = 0; i < rows; i++) {
         const row = [];
         for (let j = 0; j < columns; j++) {
             if (i % 2 === 0 && j % 2 === 0) {
-                // Fill even-indexed rows and columns with input fields
+                // Input fields
                 const input = document.createElement("input");
                 input.type = "number";
                 input.min = 1;
@@ -25,20 +23,20 @@ function generateKakuroBoard(rows, columns) {
                 input.className = "kakuro-cell";
                 row.push(input);
             } else {
-                // Fill other cells as empty spaces
+                // Esoacios vacíos
                 const kakuroCell = document.createElement("div");
                 kakuroCell.className = "kakuro-cell";
                 
-                // Create the diagonal numbers
+                // Creación de valores diagonales
                 const topNumber = document.createElement("div");
                 topNumber.className = "kakuro-top-number";
-                topNumber.contentEditable = true; // Allow user to edit the number
-                topNumber.textContent = "1"; // Initial value (you can set it as you like)
+                topNumber.contentEditable = true; // Permitir edición de número
+                topNumber.textContent = "1"; // Valor inicial (en este caso es uno pero se llena después)
                 
                 const bottomNumber = document.createElement("div");
                 bottomNumber.className = "kakuro-bottom-number";
-                bottomNumber.contentEditable = true; // Allow user to edit the number
-                bottomNumber.textContent = "2"; // Initial value (you can set it as you like)
+                bottomNumber.contentEditable = true; // Permitir edición de número
+                bottomNumber.textContent = "2"; // Valor inicial (en este caso es dos pero se llena después)
                 
                 // Append numbers to the Kakuro cell
                 kakuroCell.appendChild(topNumber);
@@ -52,7 +50,7 @@ function generateKakuroBoard(rows, columns) {
     return board;
 }
 
-// Imprimir la matriz (Kakuro board)
+// Función para imprimir la matriz (Kakuro board)
 function displayKakuroBoard(board) {
     const table = document.getElementById("matrix-table");
     for (let i = 0; i < board.length; i++) {
