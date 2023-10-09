@@ -302,6 +302,7 @@ verifyButton.addEventListener("click", function () {
 
         // Cambia el texto
         textoChequeo.textContent = 'No hay errores en el tablero!';
+        textoChequeo.style.color = 'green';
 
         // Después de 5 segundos, vuelve a ocultar la div y restaura el texto
         setTimeout(() => {
@@ -317,6 +318,7 @@ verifyButton.addEventListener("click", function () {
 
         // Cambia el texto
         textoChequeo.textContent = 'Hay errores en el tablero!';
+        textoChequeo.style.color = 'red';
 
         // Después de 5 segundos, vuelve a ocultar la div y restaura el texto
         setTimeout(() => {
