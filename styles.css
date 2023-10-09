@@ -86,4 +86,6 @@ input[type="number"] {
   vertical-align: middle; /* Centra el contenido verticalmente dentro de las celdas */
 }
 
-  
+.botonVerificar {
+    margin-top: 35px;
+}

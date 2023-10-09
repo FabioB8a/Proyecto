@@ -8,7 +8,39 @@ function getQueryParams() {
     return { rows, columns };
 }
 
-// Función para generar el Kakuro
+// Funciones para generar el Kakuro
+
+function crearCeldaInput() {
+    const input = document.createElement("input");
+    input.type = "number";
+    input.min = 1;
+    input.max = 9;
+    input.className = "kakuro-cell";
+    return input;
+}
+
+function crearCeldaValoresDiagonales(topValorInicial, bottomValorInicial) {
+    const kakuroCell = document.createElement("div");
+    kakuroCell.className = "kakuro-cell";
+    
+    // Creación de valores diagonales
+    const topNumber = document.createElement("div");
+    topNumber.className = "kakuro-top-number";
+    topNumber.contentEditable = true; // Permitir edición de número
+    topNumber.textContent = topValorInicial.toString(); // Valor inicial
+    
+    const bottomNumber = document.createElement("div");
+    bottomNumber.className = "kakuro-bottom-number";
+    bottomNumber.contentEditable = true; // Permitir edición de número
+    bottomNumber.textContent = bottomValorInicial.toString(); // Valor inicial
+    
+    // Agregar números a la celda Kakuro
+    kakuroCell.appendChild(topNumber);
+    kakuroCell.appendChild(bottomNumber);
+  
+    return kakuroCell;
+  }
+
 function generateKakuroBoard(rows, columns) {
     const board = [];
     for (let i = 0; i < rows; i++) {
@@ -19,35 +51,12 @@ function generateKakuroBoard(rows, columns) {
             if ((i + j) % 2 === 0) {
 
                 // 1. Celda de input
-                const input = document.createElement("input");
-                input.type = "number";
-                input.min = 1;
-                input.max = 9;
-                input.className = "kakuro-cell";
-                row.push(input);
+                row.push(crearCeldaInput());
 
             } else {
 
                 // 2. Celda de valores diagonales
-                const kakuroCell = document.createElement("div");
-                kakuroCell.className = "kakuro-cell";
-                
-                // Creación de valores diagonales
-                const topNumber = document.createElement("div");
-                topNumber.className = "kakuro-top-number";
-                topNumber.contentEditable = true; // Permitir edición de número
-                topNumber.textContent = "1"; // Valor inicial (en este caso es uno pero se llena después)
-                
-                const bottomNumber = document.createElement("div");
-                bottomNumber.className = "kakuro-bottom-number";
-                bottomNumber.contentEditable = true; // Permitir edición de número
-                bottomNumber.textContent = "2"; // Valor inicial (en este caso es dos pero se llena después)
-                
-                // Append numbers to the Kakuro cell
-                kakuroCell.appendChild(topNumber);
-                kakuroCell.appendChild(bottomNumber);
-                
-                row.push(kakuroCell);
+                row.push(crearCeldaValoresDiagonales(1, 2));
 
             }
         }
@@ -104,3 +113,15 @@ const kakuroBoard = generateKakuroBoard(rows, columns);
 console.log(kakuroBoard);
 displayKakuroBoard(kakuroBoard);
 
+
+
+
+
+
+
+// Funcionalidad de verificacion del tablero y movimientos
+
+const verifyButton = document.getElementById("verify-button");
+verifyButton.addEventListener("click", function() {
+    console.log("El botón 'Chequear Errores' ha sido presionado.");
+});
