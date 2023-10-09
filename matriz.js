@@ -8,6 +8,7 @@ function getQueryParams() {
     return { rows, columns };
 }
 
+
 // Funciones para generar el Kakuro
 
 function crearCeldaInput() {
@@ -66,6 +67,7 @@ function generateKakuroBoard(rows, columns) {
 }
 
 
+// Función para imprimir la matriz en consola
 
 function imprimirMatriz(matriz) {
     for (let i = 0; i < matriz.length; i++) {
@@ -76,7 +78,8 @@ function imprimirMatriz(matriz) {
 }
 
 
-// Función para imprimir la matriz (Kakuro board)
+// Función para imprimir la matriz en HTML (Kakuro board)
+
 function displayKakuroBoard(board) {
 
     console.log("Tablero...");
