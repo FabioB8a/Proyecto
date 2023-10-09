@@ -1,23 +1,14 @@
+/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     text-align: center;
-}
-
-.container {
-    background-color: #ffffff;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px auto;
-    min-width: 400px;
-    max-width:min-content;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-}
-
-input[type="number"] {
-    width: 60px;
-    padding: 5px;
-    margin: 5px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    min-height: 100vh;
 }
 
 button {
@@ -33,3 +24,66 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+/* Estilos para el contenedor */
+.container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    min-width: 400px;
+    max-width: min-content;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column; /* Coloca los elementos uno encima del otro */
+    align-items: center; /* Centra horizontalmente los elementos */
+    justify-content: center; /* Centra verticalmente los elementos */
+}
+
+
+/* Estilos para las celdas Kakuro */
+.kakuro-cell {    
+    height: 50px; /* Ajusta el tamaño de las celdas */
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: center; /* Centra el contenido verticalmente */
+    font-size: 18px;
+    padding: 10px;
+}
+
+/* Estilos para los números Kakuro */
+.kakuro-top-number,
+.kakuro-bottom-number {
+    width: 100%;
+    text-align: center;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+/* Estilos para los campos de entrada */
+input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    margin: 5px;
+    text-align: center; /* Centra el contenido horizontalmente dentro del input */
+}
+
+
+/* Establece un tamaño fijo para las celdas de la tabla */
+#matrix-table {
+  border-collapse: collapse;
+  width: 400px; /* Cambia este valor según tus necesidades */
+}
+
+#matrix-table td {
+  width: 40px; /* Ajusta el ancho de cada celda según tus necesidades */
+  height: 40px; /* Establece la misma altura que el ancho para crear celdas cuadradas */
+  border: 1px solid #000; /* Agrega un borde para separar las celdas (opcional) */
+  text-align: center; /* Centra el contenido horizontalmente dentro de las celdas */
+  vertical-align: middle; /* Centra el contenido verticalmente dentro de las celdas */
+}
+
+  

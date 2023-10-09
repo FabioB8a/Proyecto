@@ -8,22 +8,27 @@ function getQueryParams() {
     return { rows, columns };
 }
 
-// Función apra generar el Kakuro
+// Función para generar el Kakuro
 function generateKakuroBoard(rows, columns) {
     const board = [];
     for (let i = 0; i < rows; i++) {
         const row = [];
         for (let j = 0; j < columns; j++) {
-            if (i % 2 === 0 && j % 2 === 0) {
-                // Input fields
+
+            // Se genera de manera intercalada
+            if ((i + j) % 2 === 0) {
+
+                // 1. Celda de input
                 const input = document.createElement("input");
                 input.type = "number";
                 input.min = 1;
                 input.max = 9;
                 input.className = "kakuro-cell";
                 row.push(input);
+
             } else {
-                // Esoacios vacíos
+
+                // 2. Celda de valores diagonales
                 const kakuroCell = document.createElement("div");
                 kakuroCell.className = "kakuro-cell";
                 
@@ -43,6 +48,7 @@ function generateKakuroBoard(rows, columns) {
                 kakuroCell.appendChild(bottomNumber);
                 
                 row.push(kakuroCell);
+
             }
         }
         board.push(row);
@@ -50,8 +56,23 @@ function generateKakuroBoard(rows, columns) {
     return board;
 }
 
+
+
+function imprimirMatriz(matriz) {
+    for (let i = 0; i < matriz.length; i++) {
+        for (let j = 0; j < matriz[i].length; j++) {
+            console.log(matriz[i][j]);
+        }
+    }
+}
+
+
 // Función para imprimir la matriz (Kakuro board)
 function displayKakuroBoard(board) {
+
+    console.log("Tablero...");
+    imprimirMatriz(board);
+
     const table = document.getElementById("matrix-table");
     for (let i = 0; i < board.length; i++) {
         const row = document.createElement("tr");
