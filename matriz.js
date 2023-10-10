@@ -64,6 +64,15 @@ function crearCeldaValoresDiagonales(topValorInicial, bottomValorInicial) {
     return kakuroCell;
 }
 
+function crearCeldaNegra() {
+    const kakuroCell = document.createElement("div");
+    kakuroCell.className = "kakuro-cell";
+    kakuroCell.style.backgroundColor = "black"; // Color de fondo negro
+    kakuroCell.style.position = "relative";
+    kakuroCell.style.margin = "5%";
+    return kakuroCell;
+}
+
 function generateKakuroBoard(rows, columns) {
     const board = [];
     for (let i = 0; i < rows; i++) {
@@ -165,6 +174,10 @@ function tableroKakuroPruebas(rows, columns) {
     board[0][0] = crearCeldaValoresDiagonales(10, 10);
     board[1][1] = crearCeldaValoresDiagonales(6, 6);
     board[2][2] = crearCeldaValoresDiagonales(3, 3);
+    board[3][3] = crearCeldaNegra();
+    board[3][4] = crearCeldaNegra();
+    board[4][3] = crearCeldaNegra();
+    board[4][4] = crearCeldaNegra();
 
     return board;
 }
