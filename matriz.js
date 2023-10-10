@@ -222,18 +222,20 @@ function checkErrors(r, c, S, K) {
                 console.log("Intentando desreferenciar: " + K[row][actualColumn].value)
                 if (K[row][actualColumn].value == '') { console.log("Input Vacio") }
 
-                if (!isValidNumber(cell)) {
+                if (!isValidNumber(cell) && cell.value !== '') {
                     console.log("Tupla para fila encontrada en [" + row + "][" + actualColumn + "]");
                     break; // Detenerse si se encuentra una tupla (Otra pista)
                 }
 
-                if (cell.value !== '' && usedNumbers.has(cell.value)) {
+                if (usedNumbers.has(cell.value)) {
                     console.log("Se encontraron numeros repetidos en la Fila de la secuencia con posicion [" + row + "][" + column + "]. Numero repetido: " + cell.value)
                     return true; // Si se repite un número, devolver verdadero
                 }
 
+                if (cell.value !== '') {
                 console.log("Se añade el valor " + cell.value + " usado a la lista usedNumbers")
                 usedNumbers.add(cell.value);
+                }
             }
 
             // Construccion del set secuencial
@@ -253,18 +255,20 @@ function checkErrors(r, c, S, K) {
                 console.log("Intentando desreferenciar: " + K[actualRow][column].value)
                 if (K[actualRow][column].value == '') { console.log("Input Vacio") }
 
-                if (!isValidNumber(cell)) {
+                if (!isValidNumber(cell) && cell.value !== '') {
                     console.log("Tupla para columna encontrada en [" + actualRow + "][" + column + "]");
                     break; // Detenerse si se encuentra una tupla (Otra pista)
                 }
 
-                if (cell.value !== '' && usedNumbers.has(cell.value)) {
+                if (usedNumbers.has(cell.value)) {
                     console.log("Se encontraron numeros repetidos en la Fila de la secuencia con posicion [" + actualRow + "][" + column + "]. Numero repetido: " + cell.value)
                     return true; // Si se repite un número, devolver verdadero
                 }
 
+                if (cell.value !== '') {
                 console.log("Se añade el valor " + cell.value + " usado a la lista usedNumbers")
                 usedNumbers.add(cell.value);
+                }
             }
 
             // Construccion del set secuencial
