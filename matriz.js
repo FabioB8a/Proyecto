@@ -8,7 +8,7 @@ function getQueryParams() {
     console.log(columns);
 
     // Para pruebas
-    return { rows: 5, columns: 5 };
+    //return { rows: 5, columns: 5 };
 
     return { rows, columns };
 }
@@ -149,11 +149,9 @@ function generateKakuroBoard(rows, columns) {
     k = initializeMatrix(rows + 1, columns + 1);
     k = fillBlackCells(k, rows + 1, columns + 1);
     k = fillRemainingCells(k, rows + 1, columns + 1);
-    console.log("matriz inciial:", k);
     result = horizontalHints(k, rows + 1, columns + 1);
     result = verticalHints(result.k, rows + 1, columns + 1, result.s);
     result = generatehints(result.k, result.s);
-    //console.log("k:", result.k);
     return result.k;
 }
 
@@ -227,7 +225,6 @@ function fillRemainingCells(k, rows, columns) {
             aux.push(k[i][l]);
             l--;
         }
-        console.log("aux:", aux);
         if (aux.includes(num)) {
             num = getUniqueNumbers(Sc, aux);
             if(num === null){
@@ -272,7 +269,6 @@ function horizontalHints(k, r, c) {
     // Iterate from the last row to the first
     for (let i = r - 1; i >= 0; i--) {
         let totalSum = 0;
-        let startCol = i;
         // Iterate from the last column to the first in the current row
         for (let j = c - 1; j >= 0; j--) {
             if (k[i][j] !== 'X') {
@@ -285,7 +281,6 @@ function horizontalHints(k, r, c) {
                     totalSum = 0;
                 }
             }
-            startCol--;
 
         }
     }
@@ -300,13 +295,10 @@ function verticalHints(k, r, c, S) {
     // Recorremos de derecha a izquierda y de abajo hacia arrib
     for (let j = c - 1; j >= 0; j--) {
         let totalSum = 0;
-        let startCol = j;
         // Iterate from the last column to the first in the current row
         for (let i = r - 1; i >= 0; i--) {
             if (k[i][j] !== 'X' && !Array.isArray(k[i][j])) {
                 totalSum += k[i][j];
-                console.log("totalSum:", totalSum);
-                console.log("k[i][j]:", k[i][j]);
             }
             else {
                     if (totalSum > 0) {
@@ -323,8 +315,6 @@ function verticalHints(k, r, c, S) {
                     }
                 }
 
-            
-            startCol--;
         }
     }
     return { k, S };
