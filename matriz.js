@@ -297,7 +297,7 @@ verifyButton.addEventListener("click", function () {
     console.log("Posiciones de las pistas en el tablero: " + JSON.stringify(listaPosPistas))
 
     // Se verifica si hay errores en el tablero
-    value = checkErrors(rows, columns, listaPosPistas, kakuroBoard);
+    value = checkErrors(5, 5, listaPosPistas, kakuroBoard);
 
     // Si no hay errores
     if (value == false) {
