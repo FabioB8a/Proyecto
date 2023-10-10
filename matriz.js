@@ -24,19 +24,40 @@ function crearCeldaInput() {
 function crearCeldaValoresDiagonales(topValorInicial, bottomValorInicial) {
     const kakuroCell = document.createElement("div");
     kakuroCell.className = "kakuro-cell";
+    kakuroCell.style.backgroundColor = "black"; // Color de fondo negro
+    kakuroCell.style.position = "relative";
+    kakuroCell.style.margin = "5%";
 
     // Creación de valores diagonales
+    const diagonal = document.createElement("div");
+    diagonal.className = "kakuro-diagonal";
+    diagonal.style.width = "5%";
+    diagonal.style.height = "140%";
+    diagonal.style.position = "absolute";
+    diagonal.style.transform = "rotate(-50deg)";
+    diagonal.style.backgroundColor = "white"; // Color de la diagonal blanca
+    diagonal.style.zIndex = "1"; // Asegurar que la diagonal esté encima de los números
+
     const topNumber = document.createElement("div");
     topNumber.className = "kakuro-top-number";
-    topNumber.contentEditable = true; // Permitir edición de número
+    topNumber.contentEditable = false; // Permitir edición de número
     topNumber.textContent = topValorInicial.toString(); // Valor inicial
+    topNumber.style.color = "white"; // Color de texto blanco
+    topNumber.style.position = "absolute";
+    topNumber.style.left = "30%"; // Ajustar posición del número
+    topNumber.style.top = "20%";
 
     const bottomNumber = document.createElement("div");
     bottomNumber.className = "kakuro-bottom-number";
-    bottomNumber.contentEditable = true; // Permitir edición de número
+    bottomNumber.contentEditable = false; // Permitir edición de número
     bottomNumber.textContent = bottomValorInicial.toString(); // Valor inicial
+    bottomNumber.style.color = "white"; // Color de texto blanco
+    bottomNumber.style.position = "absolute";
+    bottomNumber.style.left = "-20%"; // Ajustar posición del número
+    bottomNumber.style.bottom = "10%"; // Colocar en la diagonal inferior
 
-    // Agregar números a la celda Kakuro
+    // Agregar la diagonal y los números a la celda Kakuro
+    kakuroCell.appendChild(diagonal);
     kakuroCell.appendChild(topNumber);
     kakuroCell.appendChild(bottomNumber);
 

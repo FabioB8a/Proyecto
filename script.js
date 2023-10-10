@@ -4,6 +4,7 @@
 const rowsInput = document.getElementById("rows");
 const columnsInput = document.getElementById("columns");
 const startButton = document.getElementById("start-button");
+const helpButton = document.getElementById("help-button")
 
 // Agrega un evento clic al botón de comienzo de partida
 startButton.addEventListener("click", function() {
@@ -18,4 +19,10 @@ startButton.addEventListener("click", function() {
     } else {
         alert("Por favor, ingresa valores válidos para filas y columnas (mínimo 4).");
     }
+});
+
+// Agrega un evento clic al botón de comienzo de partida
+helpButton.addEventListener("click", function() {
+    // Redirige a la página de ayuda 
+    window.location.href = `ayuda.html`;
 });
