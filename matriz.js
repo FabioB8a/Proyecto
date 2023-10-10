@@ -41,7 +41,7 @@ function crearCeldaValoresDiagonales(topValorInicial, bottomValorInicial) {
     const topNumber = document.createElement("div");
     topNumber.className = "kakuro-top-number";
     topNumber.contentEditable = false; // Permitir edición de número
-    topNumber.textContent = topValorInicial.toString(); // Valor inicial
+    topNumber.textContent = topValorInicial !== undefined && topValorInicial !== null ? topValorInicial.toString() : ''; // Valor inicial
     topNumber.style.color = "white"; // Color de texto blanco
     topNumber.style.position = "absolute";
     topNumber.style.left = "30%"; // Ajustar posición del número
@@ -50,7 +50,7 @@ function crearCeldaValoresDiagonales(topValorInicial, bottomValorInicial) {
     const bottomNumber = document.createElement("div");
     bottomNumber.className = "kakuro-bottom-number";
     bottomNumber.contentEditable = false; // Permitir edición de número
-    bottomNumber.textContent = bottomValorInicial.toString(); // Valor inicial
+    bottomNumber.textContent = bottomValorInicial !== undefined && bottomValorInicial !== null ? bottomValorInicial.toString() : ''; // Valor inicial
     bottomNumber.style.color = "white"; // Color de texto blanco
     bottomNumber.style.position = "absolute";
     bottomNumber.style.left = "-20%"; // Ajustar posición del número
@@ -63,6 +63,7 @@ function crearCeldaValoresDiagonales(topValorInicial, bottomValorInicial) {
 
     return kakuroCell;
 }
+
 
 function crearCeldaNegra() {
     const kakuroCell = document.createElement("div");
@@ -139,17 +140,217 @@ function displayKakuroBoard(board) {
     }
 }
 
+
+function generateKakuroBoard(rows, columns) {
+    k = initializeMatrix(rows + 1, columns + 1);
+    k = fillBlackCells(k, rows + 1, columns + 1);
+    k = fillRemainingCells(k, rows + 1, columns + 1);
+    console.log("matriz inciial:", k);
+    result = horizontalHints(k, rows + 1, columns + 1);
+    result = verticalHints(result.k, rows + 1, columns + 1, result.s);
+    result = generatehints(result.k, result.s);
+    //console.log("k:", result.k);
+    return k;
+}
+
+function initializeMatrix(rows, cols) {
+    k = createEmptyMatrix(rows, cols);
+    for (let i = 0; i < rows; i++) {
+        k[i][0] = 'X';
+    }
+    for (let j = 0; j < cols; j++) {
+        k[0][j] = 'X';
+    }
+    return k;
+
+}
+
+function createEmptyMatrix(rows, cols) {
+    let matrix = [];
+    for (let i = 0; i < rows; i++) {
+        const row = [];
+        for (let j = 0; j < cols; j++) {
+            row.push(null);
+        }
+        matrix.push(row);
+    }
+    return matrix;
+}
+
+function fillBlackCells(k, r, c) {
+    const targetBlackCount = Math.floor((r * c) / 3);
+    let currentBlackCount = 0;
+
+    while (currentBlackCount < targetBlackCount) {
+        const i = Math.floor(Math.random() * r);  // Generar fila aleatoria
+        const j = Math.floor(Math.random() * c);  // Generar columna aleatoria
+
+        if (k[i][j] !== 'X') {
+            k[i][j] = 'X';
+            currentBlackCount++;
+        }
+    }
+
+    return k;
+}
+
+
+function fillRemainingCells(k, rows, columns) {
+    let i = 0;
+    let j = 0;
+    const Sc = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    while (i < rows && j < columns) {
+        if (k[i][j] !== null) {
+            j++;
+            if (j === columns) {
+                i++;
+                j = 0;
+            }
+            continue;
+        }
+
+        let num = Math.floor(Math.random() * 9) + 1;  // Random entre 1 y 9
+        let aux = [];
+
+        let l = i;
+        while (l > 0 && l < rows && j > 0 && j < columns && k[l][j] !== 'X') {
+            aux.push(k[l][j]);
+            l--;
+        }
+
+        l = j;
+        while (l >= 0 && i < rows && l < columns && k[i][l] !== 'X') {
+            aux.push(k[i][l]);
+            l--;
+        }
+        console.log("aux:", aux);
+        if (aux.includes(num)) {
+            num = getUniqueNumbers(Sc, aux);
+            if(num === null){
+                k[i][j] = 'X';
+            }
+            else{
+                k[i][j] = num;
+            }
+        } else {
+            k[i][j] = num;
+        }
+
+        j++;
+        if (j === columns) {
+            i++;
+            j = 0;
+        }
+    }
+    return k;
+}
+
+function getUniqueNumbers(sc, aux) {
+    // Filtrar los números en sc que no están en aux
+    if(getRandomNumberFromList(sc.filter(number => !aux.includes(number))) === undefined){
+        return null;
+    }
+    else{
+        return getRandomNumberFromList(sc.filter(number => !aux.includes(number)));
+    }
+}
+
+function getRandomNumberFromList(numbersList) {
+    // Generar un índice aleatorio dentro de la lista
+    const randomIndex = Math.floor(Math.random() * numbersList.length);
+    // Retornar el número aleatorio obtenido
+    return numbersList[randomIndex];
+}
+// Función para imprimir la matriz en consola
+
+function horizontalHints(k, r, c) {
+    let S = [];
+    // Iterate from the last row to the first
+    for (let i = r - 1; i >= 0; i--) {
+        let totalSum = 0;
+        let startCol = i;
+        // Iterate from the last column to the first in the current row
+        for (let j = c - 1; j >= 0; j--) {
+            if (k[i][j] !== 'X') {
+                totalSum += k[i][j];
+            }
+            else {
+                if (totalSum > 0) {
+                    k[i][j] = [null, totalSum];
+                    S.push([i, j]);
+                    totalSum = 0;
+                }
+            }
+            startCol--;
+
+        }
+    }
+    return { k, S };
+}
+
+
+function verticalHints(k, r, c, S) {
+    if (!S) {
+        S = [];  // Inicializa S como un arreglo vacío si es undefined
+    }
+    // Recorremos de derecha a izquierda y de abajo hacia arrib
+    for (let j = c - 1; j >= 0; j--) {
+        let totalSum = 0;
+        let startCol = j;
+        // Iterate from the last column to the first in the current row
+        for (let i = r - 1; i >= 0; i--) {
+            if (k[i][j] !== 'X' && !Array.isArray(k[i][j])) {
+                totalSum += k[i][j];
+                console.log("totalSum:", totalSum);
+                console.log("k[i][j]:", k[i][j]);
+            }
+            else {
+                    if (totalSum > 0) {
+                        if(Array.isArray(k[i][j])){
+                            k[i][j][0] = totalSum;
+                        }
+                        else{
+                            k[i][j] = [totalSum, null];
+                        }
+                        if (!S.some(item => item[0] === i && item[1] === j)) {
+                            S.push([i, j]);
+                        }
+                        totalSum = 0;
+                    }
+                }
+
+            
+            startCol--;
+        }
+    }
+    return { k, S };
+}
+
+function generatehints(k, S) {
+    for (i = 0; i < k.length; i++) {
+        for (j = 0; j < k[i].length; j++) {
+            if (k[i][j] === 'X') {
+                k[i][j] = crearCeldaNegra();
+            }
+            else if (Array.isArray(k[i][j])) {
+                k[i][j] = crearCeldaValoresDiagonales(k[i][j][1], k[i][j][0]);
+            }
+            else{
+                k[i][j] = crearCeldaInput();
+            }
+        }
+    }
+
+    return { k, S };
+}
+
 // Quitar el comentario
-/*
 const { rows, columns } = getQueryParams();
 const kakuroBoard = generateKakuroBoard(rows, columns);
 
 // Impresión y display del tablero Kakuro
 console.log(kakuroBoard);
 displayKakuroBoard(kakuroBoard);
-*/
-
-
 
 
 
@@ -183,6 +384,7 @@ function tableroKakuroPruebas(rows, columns) {
 }
 
 
+/*
 const { rows, columns } = getQueryParams();
 const kakuroBoard = tableroKakuroPruebas(5, 5);
 
@@ -191,7 +393,7 @@ console.log(kakuroBoard);
 displayKakuroBoard(kakuroBoard);
 
 // OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO 
-
+*/
 
 
 

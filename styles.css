@@ -53,6 +53,7 @@ button:hover {
 /* Estilos para las celdas Kakuro */
 .kakuro-cell {    
     height: 50px; /* Ajusta el tamaño de las celdas */
+    width: 50px; /* Ajusta el tamaño de las celdas */
     border: 1px solid #ccc;
     display: flex;
     flex-direction: column;
