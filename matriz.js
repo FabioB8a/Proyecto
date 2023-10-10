@@ -6,6 +6,10 @@ function getQueryParams() {
     const columns = parseInt(queryParams.get("columns"));
     console.log(rows);
     console.log(columns);
+
+    // Para pruebas
+    return { rows: 5, columns: 5 };
+
     return { rows, columns };
 }
 
@@ -355,7 +359,7 @@ displayKakuroBoard(kakuroBoard);
 
 
 
-// OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO 
+// Tests - Tablero 
 // Kakuro de ejemplo para pruebas
 
 function tableroKakuroPruebas(rows, columns) {
@@ -383,18 +387,16 @@ function tableroKakuroPruebas(rows, columns) {
     return board;
 }
 
-
 /*
+// const { rows, columns } = getQueryParams();
 const { rows, columns } = getQueryParams();
-const kakuroBoard = tableroKakuroPruebas(5, 5);
+const kakuroBoard = tableroKakuroPruebas(rows, columns);
 
 // Impresión y display del tablero Kakuro
 console.log(kakuroBoard);
 displayKakuroBoard(kakuroBoard);
-
-// OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO OJO 
 */
-
+// Tests - Tablero 
 
 
 
@@ -629,10 +631,10 @@ verifyButton.addEventListener("click", function () {
     console.log("Posiciones de las pistas en el tablero: " + JSON.stringify(listaPosPistas))
 
     // Se verifica si hay errores en el tablero
-    value = checkErrors(5, 5, listaPosPistas, kakuroBoard);
+    value = checkErrors(rows, columns, listaPosPistas, kakuroBoard);
 
     // Se verifica si el usuario ha ganado
-    gameStatus = checkGameCompletion(5, 5, listaPosPistas, kakuroBoard);
+    gameStatus = checkGameCompletion(rows, columns, listaPosPistas, kakuroBoard);
 
     // Si el usuario no ha ganado, se le muestran los errores
     if (gameStatus == false) {
