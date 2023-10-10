@@ -162,11 +162,9 @@ function tableroKakuroPruebas(rows, columns) {
     }
 
     // Crear pistas fijas
-    board[0][0] = crearCeldaValoresDiagonales(1, 2);
-    board[1][1] = crearCeldaValoresDiagonales(1, 2);
-    board[2][2] = crearCeldaValoresDiagonales(1, 2);
-    board[2][4] = crearCeldaValoresDiagonales(1, 2);
-
+    board[0][0] = crearCeldaValoresDiagonales(10, 10);
+    board[1][1] = crearCeldaValoresDiagonales(6, 6);
+    board[2][2] = crearCeldaValoresDiagonales(3, 3);
 
     return board;
 }
@@ -250,12 +248,13 @@ function checkErrors(r, c, S, K) {
 
                 if (usedNumbers.has(cell.value)) {
                     console.log("Se encontraron numeros repetidos en la Fila de la secuencia con posicion [" + row + "][" + column + "]. Numero repetido: " + cell.value)
+                    console.log("checkErrors returned true")
                     return true; // Si se repite un número, devolver verdadero
                 }
 
                 if (cell.value !== '') {
-                console.log("Se añade el valor " + cell.value + " usado a la lista usedNumbers")
-                usedNumbers.add(cell.value);
+                    console.log("Se añade el valor " + cell.value + " usado a la lista usedNumbers")
+                    usedNumbers.add(cell.value);
                 }
             }
 
@@ -283,12 +282,13 @@ function checkErrors(r, c, S, K) {
 
                 if (usedNumbers.has(cell.value)) {
                     console.log("Se encontraron numeros repetidos en la Fila de la secuencia con posicion [" + actualRow + "][" + column + "]. Numero repetido: " + cell.value)
+                    console.log("checkErrors returned true")
                     return true; // Si se repite un número, devolver verdadero
                 }
 
                 if (cell.value !== '') {
-                console.log("Se añade el valor " + cell.value + " usado a la lista usedNumbers")
-                usedNumbers.add(cell.value);
+                    console.log("Se añade el valor " + cell.value + " usado a la lista usedNumbers")
+                    usedNumbers.add(cell.value);
                 }
             }
 
@@ -301,8 +301,95 @@ function checkErrors(r, c, S, K) {
 
     }
 
+    console.log("checkErrors returned false")
     return false; // Si no se repiten números en ninguna pista, devolver falso
 }
+
+
+function checkGameCompletion(r, c, S, K) {
+
+    // Define una función para comprobar si un número está en el conjunto de números válidos (1-9)
+    function isValidNumber(cell) {
+        if (cell.type = "number") {
+            console.log("La celda es numerica");
+            return true;
+        }
+        return false
+    }
+
+
+    for (const hint of S) {
+        console.log("----> Posicion de la tupla actual [" + hint[0] + "][" + hint[1] + "]");
+
+        const row = hint[0]; // Fila de la pista
+        const column = hint[1]; // Columna de la pista
+        let rowHintValue = 0;
+        let columnHintValue = 0;
+
+        // Comprobar fila hacia la derecha
+        console.log("Valor de la tupla en [" + row + "][" + column + "]: (" + K[row][column].querySelector(".kakuro-top-number").textContent + ")(" + K[row][column].querySelector(".kakuro-bottom-number").textContent + ")")
+
+        if (K[row][column].querySelector(".kakuro-top-number").textContent !== 0) {
+            for (let actualColumn = column + 1; actualColumn < c; actualColumn++) {
+                const cell = K[row][actualColumn];
+                console.log("Iterando para fila. Pos actual [" + row + "][" + actualColumn + "]");
+                console.log("Intentando desreferenciar: " + K[row][actualColumn].value)
+                if (K[row][actualColumn].value == '') { console.log("Input Vacio") }
+
+                if (!isValidNumber(cell) && cell.value !== '') {
+                    console.log("Tupla para fila encontrada en [" + row + "][" + actualColumn + "]");
+                    break; // Detenerse si se encuentra una tupla (Otra pista)
+                }
+
+                rowHintValue += parseInt(cell.value);
+                console.log("current rowHintValue = " + rowHintValue);
+
+
+            }
+
+            // Verificacion de la suma
+            if (rowHintValue != parseInt(K[row][column].querySelector(".kakuro-top-number").textContent)) {
+                console.log("checkGameCompletion returned false. rowHintValue: " + rowHintValue + "!= " + parseInt(K[row][column].querySelector(".kakuro-top-number").textContent))
+                return false
+            }
+            console.log("La suma de los valores correspondientes, es igual al valor de la pista en la FILA")
+        }
+
+        // Comprobar columna hacia abajo
+        if (K[row][column].querySelector(".kakuro-bottom-number").textContent !== 0) {
+            for (let actualRow = row + 1; actualRow < r; actualRow++) {
+                const cell = K[actualRow][column];
+                console.log("Iterando para columna. Pos actual [" + actualRow + "][" + column + "]");
+                console.log("Intentando desreferenciar: " + K[actualRow][column].value)
+                if (K[actualRow][column].value == '') { console.log("Input Vacio") }
+
+                if (!isValidNumber(cell) && cell.value !== '') {
+                    console.log("Tupla para columna encontrada en [" + actualRow + "][" + column + "]");
+                    break; // Detenerse si se encuentra una tupla (Otra pista)
+                }
+
+                columnHintValue += parseInt(cell.value);
+                console.log("current columnHintValue = " + columnHintValue);
+
+
+            }
+
+            // Verificacion de la suma
+            if (columnHintValue != parseInt(K[row][column].querySelector(".kakuro-bottom-number").textContent)) {
+                console.log("checkGameCompletion returned false. columnHintValue: " + columnHintValue + "!= " + parseInt(K[row][column].querySelector(".kakuro-bottom-number").textContent))
+                return false
+            }
+            console.log("La suma de los valores correspondientes, es igual al valor de la pista en la COLUMNA")
+        }
+
+    }
+
+    console.log("checkGameCompletion returned true")
+    return true; // Si todas las sumas corresponden a las pistas, termina el juego
+}
+
+
+
 
 // Mostrar los valores con DOM
 
@@ -320,38 +407,56 @@ verifyButton.addEventListener("click", function () {
     // Se verifica si hay errores en el tablero
     value = checkErrors(5, 5, listaPosPistas, kakuroBoard);
 
-    // Si no hay errores
-    if (value == false) {
+    // Se verifica si el usuario ha ganado
+    gameStatus = checkGameCompletion(5, 5, listaPosPistas, kakuroBoard);
+
+    // Si el usuario no ha ganado, se le muestran los errores
+    if (gameStatus == false) {
+
+        // Si no hay errores
+        if (value == false) {
+            // Cambia la visibilidad a "visible"
+            container.style.visibility = 'visible';
+
+            // Cambia el texto
+            textoChequeo.textContent = 'No hay errores en el tablero! Sigue intentando ganar';
+            textoChequeo.style.color = 'green';
+
+            // Después de 5 segundos, vuelve a ocultar la div y restaura el texto
+            setTimeout(() => {
+                container.style.visibility = 'hidden';
+                textoChequeo.textContent = '¿Lograrás solucionarlo?';
+            }, 3000);
+        }
+
+        // Si hay errores
+        else if (value == true) {
+            // Cambia la visibilidad a "visible"
+            container.style.visibility = 'visible';
+
+            // Cambia el texto
+            textoChequeo.textContent = 'Hay errores en el tablero!';
+            textoChequeo.style.color = 'red';
+
+            // Después de 5 segundos, vuelve a ocultar la div y restaura el texto
+            setTimeout(() => {
+                container.style.visibility = 'hidden';
+                textoChequeo.textContent = '¿Lograrás solucionarlo?';
+            }, 3000);
+        }
+
+    }
+
+    else {
+
         // Cambia la visibilidad a "visible"
         container.style.visibility = 'visible';
 
         // Cambia el texto
-        textoChequeo.textContent = 'No hay errores en el tablero!';
+        textoChequeo.textContent = 'Felicidades, ganaste!';
         textoChequeo.style.color = 'green';
 
-        // Después de 5 segundos, vuelve a ocultar la div y restaura el texto
-        setTimeout(() => {
-            container.style.visibility = 'hidden';
-            textoChequeo.textContent = '¿Lograrás solucionarlo?';
-        }, 3000);
     }
 
-    // Si hay errores
-    else if (value == true) {
-        // Cambia la visibilidad a "visible"
-        container.style.visibility = 'visible';
-
-        // Cambia el texto
-        textoChequeo.textContent = 'Hay errores en el tablero!';
-        textoChequeo.style.color = 'red';
-
-        // Después de 5 segundos, vuelve a ocultar la div y restaura el texto
-        setTimeout(() => {
-            container.style.visibility = 'hidden';
-            textoChequeo.textContent = '¿Lograrás solucionarlo?';
-        }, 3000);
-    }
-
-    // Se verifica si el usuario ha ganado
 
 });
