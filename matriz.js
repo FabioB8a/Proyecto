@@ -336,14 +336,18 @@ function checkGameCompletion(r, c, S, K) {
                 console.log("Intentando desreferenciar: " + K[row][actualColumn].value)
                 if (K[row][actualColumn].value == '') { console.log("Input Vacio") }
 
-                if (!isValidNumber(cell) && cell.value !== '') {
+                if (cell.value == '') {
+                    console.log("checkGameCompletion returned false. Espacio vacio encontrado verificando FILA")
+                    return false; // Detenerse si se encuentra un espacio vacio
+                }
+
+                if (!isValidNumber(cell)) {
                     console.log("Tupla para fila encontrada en [" + row + "][" + actualColumn + "]");
                     break; // Detenerse si se encuentra una tupla (Otra pista)
                 }
 
                 rowHintValue += parseInt(cell.value);
                 console.log("current rowHintValue = " + rowHintValue);
-
 
             }
 
@@ -363,7 +367,12 @@ function checkGameCompletion(r, c, S, K) {
                 console.log("Intentando desreferenciar: " + K[actualRow][column].value)
                 if (K[actualRow][column].value == '') { console.log("Input Vacio") }
 
-                if (!isValidNumber(cell) && cell.value !== '') {
+                if (cell.value == '') {
+                    console.log("checkGameCompletion returned false. Espacio vacio encontrado verificando COLUMNA")
+                    return false; // Detenerse si se encuentra un espacio vacio
+                }
+
+                if (!isValidNumber(cell)) {
                     console.log("Tupla para columna encontrada en [" + actualRow + "][" + column + "]");
                     break; // Detenerse si se encuentra una tupla (Otra pista)
                 }
