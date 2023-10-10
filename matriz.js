@@ -154,7 +154,7 @@ function generateKakuroBoard(rows, columns) {
     result = verticalHints(result.k, rows + 1, columns + 1, result.s);
     result = generatehints(result.k, result.s);
     //console.log("k:", result.k);
-    return k;
+    return result.k;
 }
 
 function initializeMatrix(rows, cols) {
