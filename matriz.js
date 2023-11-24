@@ -420,15 +420,7 @@ function encontrarCeldasDiagonales(matriz) {
 
 function checkErrors(r, c, S, K) {
 
-    // Define una función para comprobar si un número está en el conjunto de números válidos (1-9)
-    function isValidNumber(cell) {
-        if (cell.type = "number") {
-            console.log("La celda es numerica");
-            return true;
-        }
-        return false
-    }
-
+    console.log("\n\n... Chequeo de errores ...")
 
     for (const hint of S) {
         console.log("----> Posicion de la tupla actual [" + hint[0] + "][" + hint[1] + "]");
@@ -441,25 +433,26 @@ function checkErrors(r, c, S, K) {
         console.log("Valor de la tupla en [" + row + "][" + column + "]: (" + K[row][column].querySelector(".kakuro-top-number").textContent + ")(" + K[row][column].querySelector(".kakuro-bottom-number").textContent + ")")
 
 
-        if (K[row][column].querySelector(".kakuro-top-number").textContent !== 0) {
-            for (let actualColumn = column + 1; actualColumn < c; actualColumn++) {
+        if (K[row][column].querySelector(".kakuro-top-number").textContent !== '') {
+            for (let actualColumn = column + 1; actualColumn <= c; actualColumn++) {
                 const cell = K[row][actualColumn];
                 console.log("Iterando para fila. Pos actual [" + row + "][" + actualColumn + "]");
                 console.log("Intentando desreferenciar: " + K[row][actualColumn].value)
-                if (K[row][actualColumn].value == '') { console.log("Input Vacio") }
 
-                if (!isValidNumber(cell) && cell.value !== '') {
-                    console.log("Tupla para fila encontrada en [" + row + "][" + actualColumn + "]");
+                if (K[row][actualColumn].value == '' && K[row][actualColumn].value != undefined) { console.log("Input Vacio") }
+
+                if (K[row][actualColumn].value == undefined) {
+                    console.log("Tupla o espacio vacio para fila encontrado en [" + row + "][" + actualColumn + "]");
                     break; // Detenerse si se encuentra una tupla (Otra pista)
                 }
 
-                if (usedNumbers.has(cell.value)) {
-                    console.log("Se encontraron numeros repetidos en la Fila de la secuencia con posicion [" + row + "][" + column + "]. Numero repetido: " + cell.value)
+                if (usedNumbers.has(cell.value) && cell.value !== '' && cell.value !== undefined) {
+                    console.log("Se encontraron numeros repetidos en la Fila de la secuencia con posicion [" + row + "][" + actualColumn + "]. Numero repetido: " + cell.value)
                     console.log("checkErrors returned true")
                     return true; // Si se repite un número, devolver verdadero
                 }
 
-                if (cell.value !== '') {
+                if (cell.value !== '' && cell.value !== undefined) {
                     console.log("Se añade el valor " + cell.value + " usado a la lista usedNumbers")
                     usedNumbers.add(cell.value);
                 }
@@ -476,24 +469,25 @@ function checkErrors(r, c, S, K) {
 
         // Comprobar columna hacia abajo
         if (K[row][column].querySelector(".kakuro-bottom-number").textContent !== 0) {
-            for (let actualRow = row + 1; actualRow < r; actualRow++) {
+            for (let actualRow = row + 1; actualRow <= r; actualRow++) {
                 const cell = K[actualRow][column];
                 console.log("Iterando para columna. Pos actual [" + actualRow + "][" + column + "]");
                 console.log("Intentando desreferenciar: " + K[actualRow][column].value)
-                if (K[actualRow][column].value == '') { console.log("Input Vacio") }
 
-                if (!isValidNumber(cell) && cell.value !== '') {
-                    console.log("Tupla para columna encontrada en [" + actualRow + "][" + column + "]");
+                if (K[actualRow][column].value == '' && K[actualRow][column].value != undefined) { console.log("Input Vacio") }
+
+                if (K[actualRow][column].value == undefined) {
+                    console.log("Tupla o espacio vacio para columna encontrado en [" + actualRow + "][" + column + "]");
                     break; // Detenerse si se encuentra una tupla (Otra pista)
                 }
 
-                if (usedNumbers.has(cell.value)) {
+                if (usedNumbers.has(cell.value) && cell.value !== '' && cell.value !== undefined) {
                     console.log("Se encontraron numeros repetidos en la Fila de la secuencia con posicion [" + actualRow + "][" + column + "]. Numero repetido: " + cell.value)
                     console.log("checkErrors returned true")
                     return true; // Si se repite un número, devolver verdadero
                 }
 
-                if (cell.value !== '') {
+                if (cell.value !== '' && cell.value !== undefined) {
                     console.log("Se añade el valor " + cell.value + " usado a la lista usedNumbers")
                     usedNumbers.add(cell.value);
                 }
@@ -514,6 +508,8 @@ function checkErrors(r, c, S, K) {
 
 
 function checkGameCompletion(r, c, S, K) {
+
+    console.log("\n\n... Chequeo de completitud del juego ...")
 
     // Define una función para comprobar si un número está en el conjunto de números válidos (1-9)
     function isValidNumber(cell) {
