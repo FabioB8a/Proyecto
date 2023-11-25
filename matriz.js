@@ -820,10 +820,6 @@ verifyButton.addEventListener("click", function () {
 
 });
 
-
-
-
-
 solveButton.addEventListener("click", function () {
     console.log("El botón 'Chequear Errores' ha sido presionado.");
 
@@ -896,7 +892,13 @@ function solveKakuro(r, c, S, K) {
                 console.log("Iterando para fila. Pos actual [" + row + "][" + actualColumn + "]");
                 console.log("Intentando desreferenciar: " + K[row][actualColumn].value)
 
+                if (K[row][actualColumn].value == undefined) {
+                    console.log("Tupla o espacio vacio para columna encontrada en [" + row + "][" + actualColumn + "]");
+                    break; // Detenerse si se encuentra una tupla (Otra pista)
+                }
+
                 if (K[row][actualColumn].value == '') { console.log("Input Vacio"); cantVaciasFila++; }
+                
 
             }
 
@@ -919,6 +921,11 @@ function solveKakuro(r, c, S, K) {
                 console.log("Iterando para columna. Pos actual [" + actualRow + "][" + column + "]");
                 console.log("Intentando desreferenciar: " + K[actualRow][column].value)
 
+                if (K[actualRow][column].value == undefined) {
+                    console.log("Tupla o espacio vacio para columna encontrada en [" + actualRow + "][" + column + "]");
+                    break; // Detenerse si se encuentra una tupla (Otra pista)
+                }
+
                 if (K[actualRow][column].value == '') { console.log("Input Vacio"); cantVaciasColumna++; }
 
             }
@@ -931,12 +938,11 @@ function solveKakuro(r, c, S, K) {
             console.log("usedNumbers para COLUMNA de pista en celda [" + row + "][" + column + "] -> " + elementosEnLinea);
         }
 
-        console.log("\n<---- POSICIONES DE LAS PISTAS de la posicion " + row + "," + columns + " con valores de pista " + valorPistaFila + "," + valorPistaColumna + " para fila y columna respectivamente")
+        console.log("\n<---- POSICIONES DE LAS PISTAS de la posicion " + row + "," + column + " con valores de pista " + valorPistaFila + "," + valorPistaColumna + " para fila y columna respectivamente")
         console.log("POSICIONES VACIAS DE LAS PISTAS (FILA) -> " + cantVaciasFila)
-        console.log("POSICIONES VACIAS DE LAS PISTAS (Columna) -> " + cantVaciasColumna)    
+        console.log("POSICIONES VACIAS DE LAS PISTAS (COLUMNA) -> " + cantVaciasColumna)    
 
     }
-
 
     return false; // Si no se repiten números en ninguna pista, devolver falso
 }
