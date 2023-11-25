@@ -468,8 +468,8 @@ if (urlParams.has('rows') && urlParams.has('columns')) {
     getQueryParams_loadedGame();
 
     // Necesario para el funcionamiento de las verificaciones y finalizacion del juego
-    rows = height-1; // Se resta 1 por el manejo actual de filas (Se esta sumando 1 actualmente)
-    columns = width-1; // Se resta 1 por el manejo actual de columnas (Se esta sumando 1 actualmente)
+    rows = height - 1; // Se resta 1 por el manejo actual de filas (Se esta sumando 1 actualmente)
+    columns = width - 1; // Se resta 1 por el manejo actual de columnas (Se esta sumando 1 actualmente)
 
     kakuroBoard = loadKakuroBoard(width, height, data);
 
@@ -898,7 +898,7 @@ function solveKakuro(r, c, S, K) {
                 }
 
                 if (K[row][actualColumn].value == '') { console.log("Input Vacio"); cantVaciasFila++; }
-                
+
 
             }
 
@@ -940,9 +940,67 @@ function solveKakuro(r, c, S, K) {
 
         console.log("\n<---- POSICIONES DE LAS PISTAS de la posicion " + row + "," + column + " con valores de pista " + valorPistaFila + "," + valorPistaColumna + " para fila y columna respectivamente")
         console.log("POSICIONES VACIAS DE LAS PISTAS (FILA) -> " + cantVaciasFila)
-        console.log("POSICIONES VACIAS DE LAS PISTAS (COLUMNA) -> " + cantVaciasColumna)    
+        console.log("POSICIONES VACIAS DE LAS PISTAS (COLUMNA) -> " + cantVaciasColumna)
+
+        //Combinaciones para la fila
+        if (valorPistaFila !== 0) {
+            elementsFila = [];
+            for (let i = 1; i <= 9; i++) {
+                if (i < valorPistaFila) {
+                    elementsFila.push(i);
+                }
+
+            }
+            console.log("Elementos para la fila: " + elementsFila)
+
+            const combinationsRow = getCombinationsWithSum(elementsFila, cantVaciasFila, valorPistaFila);
+
+            console.log("Combinaciones para la fila: " + combinationsRow)
+            for (const combination of combinationsRow) {
+                console.log(combination.join(', '));
+            }
+        }
+
+        if (valorPistaColumna !== 0) {
+            //Combinaciones para la columna
+            elementsColumna = [];
+            for (let i = 1; i <= 9; i++) {
+                if (i < valorPistaColumna) {
+                    elementsColumna.push(i);
+                }
+
+            }
+            console.log("Elementos para la columna: " + elementsColumna)
+            const combinationsColumn = getCombinationsWithSum(elementsColumna, cantVaciasColumna, valorPistaColumna);
+            console.log("Combinaciones para la columna: " + combinationsColumn)
+            for (const combination of combinationsColumn) {
+                console.log(combination.join(', '));
+            }
+        }
 
     }
 
     return false; // Si no se repiten números en ninguna pista, devolver falso
+}
+
+
+function getCombinationsWithSum(elements, size, targetSum, currentCombination = [], startIndex = 0) {
+    const combinations = [];
+
+    if (size === 0 && targetSum === 0) {
+        combinations.push([...currentCombination]);
+        return combinations;
+    }
+
+    for (let i = startIndex; i < elements.length; i++) {
+        if (targetSum - elements[i] >= 0) {
+            currentCombination.push(elements[i]);
+            combinations.push(
+                ...getCombinationsWithSum(elements, size - 1, targetSum - elements[i], currentCombination, i + 1)
+            );
+            currentCombination.pop();
+        }
+    }
+
+    return combinations;
 }
