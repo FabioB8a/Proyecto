@@ -873,6 +873,8 @@ function solveKakuro(r, c, S, K) {
         cantVaciasColumna = 0;
         valorPistaFila = 0;
         valorPistaColumna = 0;
+        valorActualPistaColumna = 0;
+        valorActualPistaFila = 0;
 
         console.log("----> Posicion de la tupla actual [" + hint[0] + "][" + hint[1] + "]");
 
@@ -898,6 +900,7 @@ function solveKakuro(r, c, S, K) {
                 }
 
                 if (K[row][actualColumn].value == '') { console.log("Input Vacio"); cantVaciasFila++; }
+                else {valorActualPistaFila = valorActualPistaFila + parseFloat(K[row][actualColumn].value)}
 
 
             }
@@ -927,6 +930,7 @@ function solveKakuro(r, c, S, K) {
                 }
 
                 if (K[actualRow][column].value == '') { console.log("Input Vacio"); cantVaciasColumna++; }
+                else {valorActualPistaColumna = valorActualPistaColumna + parseFloat(K[actualRow][column].value)}
 
             }
 
@@ -941,6 +945,8 @@ function solveKakuro(r, c, S, K) {
         console.log("\n<---- POSICIONES DE LAS PISTAS de la posicion " + row + "," + column + " con valores de pista " + valorPistaFila + "," + valorPistaColumna + " para fila y columna respectivamente")
         console.log("POSICIONES VACIAS DE LAS PISTAS (FILA) -> " + cantVaciasFila)
         console.log("POSICIONES VACIAS DE LAS PISTAS (COLUMNA) -> " + cantVaciasColumna)
+        console.log("Valor ACTUAL  (FILA) -> " + valorActualPistaFila)
+        console.log("Valor ACTUAL (COLUMNA) -> " + valorActualPistaColumna)
 
         //Combinaciones para la fila
         if (valorPistaFila !== 0) {
