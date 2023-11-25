@@ -1,20 +1,10 @@
-// Obtener filas y columnas
+// JS asociado al tablero
 
-function getQueryParams() {
-    const queryParams = new URLSearchParams(window.location.search);
-    const rows = parseInt(queryParams.get("rows"));
-    const columns = parseInt(queryParams.get("columns"));
-    console.log(rows);
-    console.log(columns);
-
-    // Para pruebas
-    //return { rows: 5, columns: 5 };
-
-    return { rows, columns };
-}
 
 
 // Funciones para generar el Kakuro
+
+// Funcion para generar celdas de entrada en la matriz
 
 function crearCeldaInput() {
     const input = document.createElement("input");
@@ -24,6 +14,9 @@ function crearCeldaInput() {
     input.className = "kakuro-cell";
     return input;
 }
+
+
+// Funcion para crear pistas en la matriz
 
 function crearCeldaValoresDiagonales(topValorInicial, bottomValorInicial) {
     const kakuroCell = document.createElement("div");
@@ -68,6 +61,7 @@ function crearCeldaValoresDiagonales(topValorInicial, bottomValorInicial) {
     return kakuroCell;
 }
 
+// Función para crear celdas negras en la matriz
 
 function crearCeldaNegra() {
     const kakuroCell = document.createElement("div");
@@ -76,30 +70,6 @@ function crearCeldaNegra() {
     kakuroCell.style.position = "relative";
     kakuroCell.style.margin = "5%";
     return kakuroCell;
-}
-
-function generateKakuroBoard(rows, columns) {
-    const board = [];
-    for (let i = 0; i < rows; i++) {
-        const row = [];
-        for (let j = 0; j < columns; j++) {
-
-            // Se genera de manera intercalada
-            if ((i + j) % 2 === 0) {
-
-                // 1. Celda de input
-                row.push(crearCeldaInput());
-
-            } else {
-
-                // 2. Celda de valores diagonales
-                row.push(crearCeldaValoresDiagonales(1, 2));
-
-            }
-        }
-        board.push(row);
-    }
-    return board;
 }
 
 
@@ -145,7 +115,117 @@ function displayKakuroBoard(board) {
 }
 
 
+
+
+
+//
+// INICIO
+// TRADUCCION Y GENERACION BASADA EN EL ARCHIVO DEL KAKURO
+
+function generateKakuroBoard_BaseEjemplo(rows, columns) {
+    const board = [];
+    for (let i = 0; i < rows; i++) {
+        const row = [];
+        for (let j = 0; j < columns; j++) {
+
+            // Se genera de manera intercalada
+            if ((i + j) % 2 === 0) {
+
+                // 1. Celda de input
+                row.push(crearCeldaInput());
+
+            } else {
+
+                // 2. Celda de valores diagonales
+                row.push(crearCeldaValoresDiagonales(1, 2));
+
+            }
+        }
+        board.push(row);
+    }
+    return board;
+}
+
+function loadKakuroBoardTESTS(width, height, data) {
+
+    console.log(`Cargue de archivo con ancho ${width}, alto ${height} y datos:`, data);
+
+    const board = [];
+    for (let i = 0; i < height; i++) {
+        const row = [];
+        for (let j = 0; j < width; j++) {
+            const value = data.find(item => item.i === i && item.j === j);
+
+            if (j == 0) {
+                row.push(crearCeldaValoresDiagonales(1, ''));
+            }
+
+            if (value && j != 1) {
+                row.push(crearCeldaInput());
+
+            } else {
+                // La celda no tiene un valor en data, es de tipo input
+                row.push(crearCeldaInput());
+            }
+        }
+        board.push(row);
+    }
+
+    console.log("Tablero cargado:", board);
+    return board;
+
+}
+
+
+function loadKakuroBoard(width, height, data) {
+
+    console.log(`Cargue de archivo con ancho ${width}, alto ${height} y datos:`, data);
+
+    const board = [];
+    for (let i = 0; i < height; i++) {
+        const row = [];
+        for (let j = 0; j < width; j++) {
+            const value = data.find(item => item.i === i && item.j === j);
+
+            if (value) {
+                // La celda tiene un valor, verificar si es negra o no
+                if (value.n === -1 && value.m === -1) {
+                    // Ambas direcciones son negras
+                    row.push(crearCeldaNegra());
+                } else {
+                    // Al menos una dirección tiene un valor
+                    if (value.n === -1) { row.push(crearCeldaValoresDiagonales(value.m, '')); }
+                    else if (value.m === -1) { row.push(crearCeldaValoresDiagonales('', value.n)); }
+                }
+            } else {
+                // La celda no tiene un valor en data, es de tipo input
+                row.push(crearCeldaInput());
+            }
+        }
+        board.push(row);
+    }
+
+    console.log("Tablero cargado:", board);
+    return board;
+
+}
+
+//
+// FIN
+// TRADUCCION Y GENERACION BASADA EN EL ARCHIVO DEL KAKURO
+
+
+
+
+
+//
+// INICIO
+// GENERACION DEL KAKURO
+
 function generateKakuroBoard(rows, columns) {
+
+    console.log(`Partida autogenerada con ${rows} filas y ${columns} columnas.`);
+
     k = initializeMatrix(rows + 1, columns + 1);
     k = fillBlackCells(k, rows + 1, columns + 1);
     k = fillRemainingCells(k, rows + 1, columns + 1);
@@ -227,10 +307,10 @@ function fillRemainingCells(k, rows, columns) {
         }
         if (aux.includes(num)) {
             num = getUniqueNumbers(Sc, aux);
-            if(num === null){
+            if (num === null) {
                 k[i][j] = 'X';
             }
-            else{
+            else {
                 k[i][j] = num;
             }
         } else {
@@ -248,10 +328,10 @@ function fillRemainingCells(k, rows, columns) {
 
 function getUniqueNumbers(sc, aux) {
     // Filtrar los números en sc que no están en aux
-    if(getRandomNumberFromList(sc.filter(number => !aux.includes(number))) === undefined){
+    if (getRandomNumberFromList(sc.filter(number => !aux.includes(number))) === undefined) {
         return null;
     }
-    else{
+    else {
         return getRandomNumberFromList(sc.filter(number => !aux.includes(number)));
     }
 }
@@ -301,19 +381,19 @@ function verticalHints(k, r, c, S) {
                 totalSum += k[i][j];
             }
             else {
-                    if (totalSum > 0) {
-                        if(Array.isArray(k[i][j])){
-                            k[i][j][0] = totalSum;
-                        }
-                        else{
-                            k[i][j] = [totalSum, null];
-                        }
-                        if (!S.some(item => item[0] === i && item[1] === j)) {
-                            S.push([i, j]);
-                        }
-                        totalSum = 0;
+                if (totalSum > 0) {
+                    if (Array.isArray(k[i][j])) {
+                        k[i][j][0] = totalSum;
                     }
+                    else {
+                        k[i][j] = [totalSum, null];
+                    }
+                    if (!S.some(item => item[0] === i && item[1] === j)) {
+                        S.push([i, j]);
+                    }
+                    totalSum = 0;
                 }
+            }
 
         }
     }
@@ -329,7 +409,7 @@ function generatehints(k, S) {
             else if (Array.isArray(k[i][j])) {
                 k[i][j] = crearCeldaValoresDiagonales(k[i][j][1], k[i][j][0]);
             }
-            else{
+            else {
                 k[i][j] = crearCeldaInput();
             }
         }
@@ -338,9 +418,65 @@ function generatehints(k, S) {
     return { k, S };
 }
 
-// Quitar el comentario
-const { rows, columns } = getQueryParams();
-const kakuroBoard = generateKakuroBoard(rows, columns);
+//
+// FIN
+// GENERACION DEL KAKURO
+
+
+
+
+
+// INICIALIZACION DEL TABLERO
+
+// Variables globales
+let rows, columns, width, height, data, kakuroBoard;
+
+// Obtener filas y columnas - Tablero autogenerado
+function getQueryParams_autoGeneratedGame() {
+    const queryParams = new URLSearchParams(window.location.search);
+    rows = parseInt(queryParams.get("rows"));
+    columns = parseInt(queryParams.get("columns"));
+
+    // Para pruebas
+    //return { rows: 5, columns: 5 };
+
+    return { rows, columns };
+}
+
+// Obtener datos de carga de archivo
+function getQueryParams_loadedGame() {
+    const queryParams = new URLSearchParams(window.location.search);
+    width = parseInt(queryParams.get("width"));
+    height = parseInt(queryParams.get("height"));
+    data = JSON.parse(decodeURIComponent(queryParams.get("data")));
+
+    return { width, height, data };
+}
+
+// Se obtienen los parametros de la URL
+const urlParams = new URLSearchParams(window.location.search);
+
+// Verificar la cantidad de parámetros. SI ES AUTOGENERADO
+if (urlParams.has('rows') && urlParams.has('columns')) {
+    // Hay 2 parámetros (rows y columns)
+    getQueryParams_autoGeneratedGame();
+    kakuroBoard = generateKakuroBoard(rows, columns);
+
+    // Verificar la cantidad de parámetros. SI ES CARGADO DE ARCHIVO
+} else if (urlParams.has('width') && urlParams.has('height') && urlParams.has('data')) {
+    // Hay 3 parámetros (width, height y data)
+    getQueryParams_loadedGame();
+
+    // Necesario para el funcionamiento de las verificaciones y finalizacion del juego
+    rows = height-1; // Se resta 1 por el manejo actual de filas (Se esta sumando 1 actualmente)
+    columns = width-1; // Se resta 1 por el manejo actual de columnas (Se esta sumando 1 actualmente)
+
+    kakuroBoard = loadKakuroBoard(width, height, data);
+
+} else {
+    console.log('Error: Parámetros no válidos.');
+    alert('Error: Parámetros no válidos.');
+}
 
 // Impresión y display del tablero Kakuro
 console.log(kakuroBoard);
@@ -349,9 +485,14 @@ displayKakuroBoard(kakuroBoard);
 
 
 
+
+
+
+
 // Tests - Tablero 
 // Kakuro de ejemplo para pruebas
 
+/*
 function tableroKakuroPruebas(rows, columns) {
     const board = [];
     for (let i = 0; i < rows; i++) {
@@ -377,16 +518,15 @@ function tableroKakuroPruebas(rows, columns) {
     return board;
 }
 
-/*
-// const { rows, columns } = getQueryParams();
-const { rows, columns } = getQueryParams();
+
+// const { rows, columns } = getQueryParams_autoGeneratedGame();
+const { rows, columns } = getQueryParams_autoGeneratedGame();
 const kakuroBoard = tableroKakuroPruebas(rows, columns);
 
 // Impresión y display del tablero Kakuro
 console.log(kakuroBoard);
 displayKakuroBoard(kakuroBoard);
 */
-// Tests - Tablero 
 
 
 
@@ -398,6 +538,9 @@ displayKakuroBoard(kakuroBoard);
 // ------> Funcionalidad de verificacion del tablero y movimientos
 
 // Crear una lista con las posiciones de las tuplas dentro del tablero
+
+
+// Funcion para encontrar las celdas que tienen valores diagonales (pistas)
 
 function encontrarCeldasDiagonales(matriz) {
     const celdasDiagonales = [];
@@ -415,6 +558,7 @@ function encontrarCeldasDiagonales(matriz) {
 
     return celdasDiagonales;
 }
+
 
 // Función para verificar errores en el tablero de Kakuro
 
@@ -468,7 +612,7 @@ function checkErrors(r, c, S, K) {
         usedNumbers.clear(); // Reinicializar el conjunto antes de verificar la columna
 
         // Comprobar columna hacia abajo
-        if (K[row][column].querySelector(".kakuro-bottom-number").textContent !== 0) {
+        if (K[row][column].querySelector(".kakuro-bottom-number").textContent !== '') {
             for (let actualRow = row + 1; actualRow <= r; actualRow++) {
                 const cell = K[actualRow][column];
                 console.log("Iterando para columna. Pos actual [" + actualRow + "][" + column + "]");
@@ -506,6 +650,8 @@ function checkErrors(r, c, S, K) {
     return false; // Si no se repiten números en ninguna pista, devolver falso
 }
 
+
+// Funcion para verificar si ya termino el juego
 
 function checkGameCompletion(r, c, S, K) {
 

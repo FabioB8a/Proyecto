@@ -103,3 +103,24 @@ input[type="number"] {
 .hidden {
     visibility: hidden;
 }
+
+/* Estilos del cargue de archivos */
+
+.file-upload-container {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#board-file {
+    margin-right: 10px;
+}
+
+/* Add the following style to center the button */
+#load-board-button {
+    margin-left: 10px; /* Adjust the margin as needed */
+}
