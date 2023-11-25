@@ -532,20 +532,20 @@ function checkGameCompletion(r, c, S, K) {
         // Comprobar fila hacia la derecha
         console.log("Valor de la tupla en [" + row + "][" + column + "]: (" + K[row][column].querySelector(".kakuro-top-number").textContent + ")(" + K[row][column].querySelector(".kakuro-bottom-number").textContent + ")")
 
-        if (K[row][column].querySelector(".kakuro-top-number").textContent !== 0) {
-            for (let actualColumn = column + 1; actualColumn < c; actualColumn++) {
+        if (K[row][column].querySelector(".kakuro-top-number").textContent !== '') {
+            for (let actualColumn = column + 1; actualColumn <= c; actualColumn++) {
                 const cell = K[row][actualColumn];
                 console.log("Iterando para fila. Pos actual [" + row + "][" + actualColumn + "]");
                 console.log("Intentando desreferenciar: " + K[row][actualColumn].value)
                 if (K[row][actualColumn].value == '') { console.log("Input Vacio") }
 
-                if (cell.value == '') {
+                if (K[row][actualColumn].value == '' && K[row][actualColumn].value != undefined) {
                     console.log("checkGameCompletion returned false. Espacio vacio encontrado verificando FILA")
                     return false; // Detenerse si se encuentra un espacio vacio
                 }
 
-                if (!isValidNumber(cell)) {
-                    console.log("Tupla para fila encontrada en [" + row + "][" + actualColumn + "]");
+                if (K[row][actualColumn].value == undefined) {
+                    console.log("Tupla o espacio vacio para fila encontrada en [" + row + "][" + actualColumn + "]");
                     break; // Detenerse si se encuentra una tupla (Otra pista)
                 }
 
@@ -563,20 +563,20 @@ function checkGameCompletion(r, c, S, K) {
         }
 
         // Comprobar columna hacia abajo
-        if (K[row][column].querySelector(".kakuro-bottom-number").textContent !== 0) {
-            for (let actualRow = row + 1; actualRow < r; actualRow++) {
+        if (K[row][column].querySelector(".kakuro-bottom-number").textContent !== '') {
+            for (let actualRow = row + 1; actualRow <= r; actualRow++) {
                 const cell = K[actualRow][column];
                 console.log("Iterando para columna. Pos actual [" + actualRow + "][" + column + "]");
                 console.log("Intentando desreferenciar: " + K[actualRow][column].value)
                 if (K[actualRow][column].value == '') { console.log("Input Vacio") }
 
-                if (cell.value == '') {
+                if (K[actualRow][column].value == '' && K[actualRow][column].value != undefined) {
                     console.log("checkGameCompletion returned false. Espacio vacio encontrado verificando COLUMNA")
                     return false; // Detenerse si se encuentra un espacio vacio
                 }
 
-                if (!isValidNumber(cell)) {
-                    console.log("Tupla para columna encontrada en [" + actualRow + "][" + column + "]");
+                if (K[actualRow][column].value == undefined) {
+                    console.log("Tupla o espacio vacio para columna encontrada en [" + actualRow + "][" + column + "]");
                     break; // Detenerse si se encuentra una tupla (Otra pista)
                 }
 
