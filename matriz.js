@@ -754,6 +754,7 @@ function checkGameCompletion(r, c, S, K) {
 const container = document.getElementById('containerTextoChequeo');
 const textoChequeo = document.getElementById('textoChequeo');
 const verifyButton = document.getElementById("verify-button");
+const solveButton = document.getElementById("solve-button");
 
 verifyButton.addEventListener("click", function () {
     console.log("El botón 'Chequear Errores' ha sido presionado.");
@@ -818,3 +819,124 @@ verifyButton.addEventListener("click", function () {
 
 
 });
+
+
+
+
+
+solveButton.addEventListener("click", function () {
+    console.log("El botón 'Chequear Errores' ha sido presionado.");
+
+    // Se crea la lista de las posiciones de las pistas
+    listaPosPistas = encontrarCeldasDiagonales(kakuroBoard);
+    console.log("Posiciones de las pistas en el tablero: " + JSON.stringify(listaPosPistas))
+
+    // Se soluciona el tablero
+    value = solveKakuro(rows, columns, listaPosPistas, kakuroBoard);
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function solveKakuro(r, c, S, K) {
+
+    console.log("\n\n... solveKakuro ...")
+
+    for (const hint of S) {
+        cantVaciasFila = 0;
+        cantVaciasColumna = 0;
+        valorPistaFila = 0;
+        valorPistaColumna = 0;
+
+        console.log("----> Posicion de la tupla actual [" + hint[0] + "][" + hint[1] + "]");
+
+        const row = hint[0]; // Fila de la pista
+        const column = hint[1]; // Columna de la pista
+        const usedNumbers = new Set(); // Conjunto para rastrear los números utilizados
+
+        // Comprobar fila hacia la derecha
+        console.log("Valor de la tupla en [" + row + "][" + column + "]: (" + K[row][column].querySelector(".kakuro-top-number").textContent + ")(" + K[row][column].querySelector(".kakuro-bottom-number").textContent + ")")
+
+
+        if (K[row][column].querySelector(".kakuro-top-number").textContent !== '') {
+            valorPistaFila = K[row][column].querySelector(".kakuro-top-number").textContent;
+
+            for (let actualColumn = column + 1; actualColumn <= c; actualColumn++) {
+                const cell = K[row][actualColumn];
+                console.log("Iterando para fila. Pos actual [" + row + "][" + actualColumn + "]");
+                console.log("Intentando desreferenciar: " + K[row][actualColumn].value)
+
+                if (K[row][actualColumn].value == '') { console.log("Input Vacio"); cantVaciasFila++; }
+
+            }
+
+
+            // Construccion del set secuencial
+            const setArray = Array.from(usedNumbers);
+            const elementosEnLinea = setArray.join(', ');
+
+            console.log("usedNumbers para FILA de pista en celda [" + row + "][" + column + "] -> " + elementosEnLinea);
+        }
+
+        usedNumbers.clear(); // Reinicializar el conjunto antes de verificar la columna
+
+        // Comprobar columna hacia abajo
+        if (K[row][column].querySelector(".kakuro-bottom-number").textContent !== '') {
+            valorPistaColumna = K[row][column].querySelector(".kakuro-top-number").textContent;
+
+            for (let actualRow = row + 1; actualRow <= r; actualRow++) {
+                const cell = K[actualRow][column];
+                console.log("Iterando para columna. Pos actual [" + actualRow + "][" + column + "]");
+                console.log("Intentando desreferenciar: " + K[actualRow][column].value)
+
+                if (K[actualRow][column].value == '') { console.log("Input Vacio"); cantVaciasColumna++; }
+
+            }
+
+
+            // Construccion del set secuencial
+            const setArray = Array.from(usedNumbers);
+            const elementosEnLinea = setArray.join(', ');
+
+            console.log("usedNumbers para COLUMNA de pista en celda [" + row + "][" + column + "] -> " + elementosEnLinea);
+        }
+
+        console.log("\n<---- POSICIONES DE LAS PISTAS de la posicion " + row + "," + columns + " con valores de pista " + valorPistaFila + "," + valorPistaColumna + " para fila y columna respectivamente")
+        console.log("POSICIONES VACIAS DE LAS PISTAS (FILA) -> " + cantVaciasFila)
+        console.log("POSICIONES VACIAS DE LAS PISTAS (Columna) -> " + cantVaciasColumna)    
+
+    }
+
+
+    return false; // Si no se repiten números en ninguna pista, devolver falso
+}
