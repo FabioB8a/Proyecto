@@ -976,6 +976,19 @@ function solveKakuro(r, c, S, K) {
             for (const combination of combinationsRow) {
                 console.log(combination.join(', '));
             }
+            let newCombinationsRow = []
+            //Eliminar las combinaciones que no contengan los elementos de la lista actual si la lista no está vacía
+            if (listaActualFila.length !== 0) {
+                for(combination of combinationsRow){
+                    if(combination.includes(listaActualFila)){
+                        newCombinationsRow.push(combination)
+                    }
+                }
+                console.log("Combinaciones nuevas para la fila: " + newCombinationsRow)
+                for (const combination of newCombinationsRow) {
+                    console.log(combination.join(', '));
+                }
+            }
         }
 
         if (valorPistaColumna !== 0) {
