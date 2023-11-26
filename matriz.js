@@ -981,11 +981,15 @@ function solveKakuro(r, c, S, K) {
             if (listaActualFila.length !== 0) {
                 console.log("La lista actual de la fila no está vacía")
                 for(combination of combinationsRow){
-                    console.log("La combinacion actual es: " + combination);
-                    if(combination.includes(listaActualFila)){
-                        newCombinationsRow.push(combination);
-                        console.log("La combinación agregada es ", combination);
+                    for(numbers of combination){
+                        for(numList of listaActualFila){
+                            if(numList == numbers){
+                                console.log("La combinacion " + combination + " contiene el numero " + numbers)
+                                newCombinationsRow.push(combination);
+                            }
+                        }
                     }
+                
                 }
                 console.log("Combinaciones nuevas para la fila: " + newCombinationsRow)
                 for (const combination of newCombinationsRow) {
@@ -1014,8 +1018,13 @@ function solveKakuro(r, c, S, K) {
             //Eliminar las combinaciones que no contengan los elementos de la lista actual si la lista no está vacía
             if (listaActualColumna.length !== 0) {
                 for(combination of combinationsColumn){
-                    if(combination.includes(listaActualColumna)){
-                        newCombinationsColumn.push(combination);
+                    for(numbers of combination){
+                        for(numList of listaActualColumna){
+                            if(numList == numbers){
+                                console.log("La combinacion " + combination + " contiene el numero " + numbers)
+                                newCombinationsColumn.push(combination);
+                            }
+                        }
                     }
                 }
                 console.log("Combinaciones nuevas para la columna: " + newCombinationsColumn)
