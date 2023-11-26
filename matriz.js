@@ -1006,6 +1006,20 @@ function solveKakuro(r, c, S, K) {
             for (const combination of combinationsColumn) {
                 console.log(combination.join(', '));
             }
+
+            let newCombinationsColumn = []
+            //Eliminar las combinaciones que no contengan los elementos de la lista actual si la lista no está vacía
+            if (listaActualColumna.length !== 0) {
+                for(combination of combinationsColumn){
+                    if(combination.includes(listaActualColumna)){
+                        newCombinationsColumn.push(combination)
+                    }
+                }
+                console.log("Combinaciones nuevas para la columna: " + newCombinationsColumn)
+                for (const combination of newCombinationsColumn) {
+                    console.log(combination.join(', '));
+                }
+            }
         }
 
     }
