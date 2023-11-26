@@ -980,14 +980,16 @@ function solveKakuro(r, c, S, K) {
                 break
             }
             
+            // PONER VALORES DE FILA
             /*
             i = 0;
             for (let actualColumn = column + 1; actualColumn <= c; actualColumn++) {
                 K[row][actualColumn].value = combinacion[i];
-                console.log("Valor " + combinacion[i] + "puesto en " + row + "," + actualColumn)
+                console.log("[FILA] Valor " + combinacion[i] + "puesto en " + row + "," + actualColumn)
                 i++;
             }
             */
+            
 
 
             let newCombinationsRow = []
@@ -1031,7 +1033,21 @@ function solveKakuro(r, c, S, K) {
             console.log("Combinaciones para la columna: " + combinationsColumn)
             for (const combination of combinationsColumn) {
                 console.log(combination.join(', '));
+
+                combinacion = combination
+                break
             }
+
+            // PONER VALORES DE COLUMNA
+            /*
+            i = 0;
+            for (let actualRow = row + 1; actualRow <= r; actualRow++) {
+                K[actualRow][column].value = combinacion[i];
+                console.log("[COLUMNA] Valor " + combinacion[i] + "puesto en " + actualRow + "," + column)
+                i++;
+            }
+            */
+            
 
             let newCombinationsColumn = []
             //Eliminar las combinaciones que no contengan los elementos de la lista actual si la lista no está vacía
