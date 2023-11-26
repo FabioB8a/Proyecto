@@ -979,6 +979,7 @@ function solveKakuro(r, c, S, K) {
             let newCombinationsRow = []
             //Eliminar las combinaciones que no contengan los elementos de la lista actual si la lista no está vacía
             if (listaActualFila.length !== 0) {
+                console.log("La lista actual de la fila no está vacía")
                 for(combination of combinationsRow){
                     console.log("La combinacion actual es: " + combination);
                     if(combination.includes(listaActualFila)){
