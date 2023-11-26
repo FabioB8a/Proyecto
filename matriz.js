@@ -975,8 +975,24 @@ function solveKakuro(r, c, S, K) {
             console.log("Combinaciones para la fila: " + combinationsRow)
             for (const combination of combinationsRow) {
                 console.log(combination.join(', '));
+
+                combinacion = combination
+                break
             }
+            
+            /*
+            i = 0;
+            for (let actualColumn = column + 1; actualColumn <= c; actualColumn++) {
+                K[row][actualColumn].value = combinacion[i];
+                console.log("Valor " + combinacion[i] + "puesto en " + row + "," + actualColumn)
+                i++;
+            }
+            */
+
+
             let newCombinationsRow = []
+
+
             //Eliminar las combinaciones que no contengan los elementos de la lista actual si la lista no está vacía
             if (listaActualFila.length !== 0) {
                 console.log("La lista actual de la fila no está vacía")
@@ -991,11 +1007,14 @@ function solveKakuro(r, c, S, K) {
                     }
                 
                 }
+                
                 console.log("Combinaciones nuevas para la fila: " + newCombinationsRow)
                 for (const combination of newCombinationsRow) {
                     console.log(combination.join(', '));
-                }
+                }                
+
             }
+
         }
 
         if (valorPistaColumna !== 0) {
