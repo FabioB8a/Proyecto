@@ -922,7 +922,7 @@ function solveKakuro(r, c, S, K) {
 
         // Comprobar columna hacia abajo
         if (K[row][column].querySelector(".kakuro-bottom-number").textContent !== '') {
-            valorPistaColumna = K[row][column].querySelector(".kakuro-top-number").textContent;
+            valorPistaColumna = K[row][column].querySelector(".kakuro-bottom-number").textContent;
 
             for (let actualRow = row + 1; actualRow <= r; actualRow++) {
                 const cell = K[actualRow][column];
