@@ -875,6 +875,8 @@ function solveKakuro(r, c, S, K) {
         valorPistaColumna = 0;
         valorActualPistaColumna = 0;
         valorActualPistaFila = 0;
+        listaActualFila = [];
+        listaActualColumna = [];
 
         console.log("----> Posicion de la tupla actual [" + hint[0] + "][" + hint[1] + "]");
 
@@ -900,7 +902,10 @@ function solveKakuro(r, c, S, K) {
                 }
 
                 if (K[row][actualColumn].value == '') { console.log("Input Vacio"); cantVaciasFila++; }
-                else {valorActualPistaFila = valorActualPistaFila + parseFloat(K[row][actualColumn].value)}
+                else {
+                    valorActualPistaFila = valorActualPistaFila + parseFloat(K[row][actualColumn].value)
+                    listaActualFila.push(K[row][actualColumn].value)
+                }
 
 
             }
@@ -930,7 +935,11 @@ function solveKakuro(r, c, S, K) {
                 }
 
                 if (K[actualRow][column].value == '') { console.log("Input Vacio"); cantVaciasColumna++; }
-                else {valorActualPistaColumna = valorActualPistaColumna + parseFloat(K[actualRow][column].value)}
+                else {
+                    valorActualPistaColumna = valorActualPistaColumna + parseFloat(K[actualRow][column].value)
+                    listaActualColumna.push(K[actualRow][column].value)
+
+                }
 
             }
 
@@ -947,6 +956,8 @@ function solveKakuro(r, c, S, K) {
         console.log("POSICIONES VACIAS DE LAS PISTAS (COLUMNA) -> " + cantVaciasColumna)
         console.log("Valor ACTUAL  (FILA) -> " + valorActualPistaFila)
         console.log("Valor ACTUAL (COLUMNA) -> " + valorActualPistaColumna)
+        console.log("Lista ACTUAL (FILA) -> " + listaActualFila)
+        console.log("Lista ACTUAL (COLUMNA) -> " + listaActualColumna)
 
         //Combinaciones para la fila
         if (valorPistaFila !== 0) {
@@ -959,7 +970,7 @@ function solveKakuro(r, c, S, K) {
             }
             console.log("Elementos para la fila: " + elementsFila)
 
-            const combinationsRow = getCombinationsWithSum(elementsFila, cantVaciasFila, valorPistaFila);
+            const combinationsRow = getCombinationsWithSum(elementsFila, cantVaciasFila, valorPistaFila, listaActualFila);
 
             console.log("Combinaciones para la fila: " + combinationsRow)
             for (const combination of combinationsRow) {
@@ -977,7 +988,7 @@ function solveKakuro(r, c, S, K) {
 
             }
             console.log("Elementos para la columna: " + elementsColumna)
-            const combinationsColumn = getCombinationsWithSum(elementsColumna, cantVaciasColumna, valorPistaColumna);
+            const combinationsColumn = getCombinationsWithSum(elementsColumna, cantVaciasColumna, valorPistaColumna, listaActualColumna);
             console.log("Combinaciones para la columna: " + combinationsColumn)
             for (const combination of combinationsColumn) {
                 console.log(combination.join(', '));
@@ -999,7 +1010,7 @@ function getCombinationsWithSum(elements, size, targetSum, currentCombination = 
     }
 
     for (let i = startIndex; i < elements.length; i++) {
-        if (targetSum - elements[i] >= 0) {
+        if (targetSum - elements[i] >= 0 ) {
             currentCombination.push(elements[i]);
             combinations.push(
                 ...getCombinationsWithSum(elements, size - 1, targetSum - elements[i], currentCombination, i + 1)
