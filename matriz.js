@@ -194,8 +194,9 @@ function loadKakuroBoard(width, height, data) {
                     row.push(crearCeldaNegra());
                 } else {
                     // Al menos una dirección tiene un valor
-                    if (value.n === -1) { row.push(crearCeldaValoresDiagonales(value.m, '')); }
-                    else if (value.m === -1) { row.push(crearCeldaValoresDiagonales('', value.n)); }
+                    if (value.m != -1 && value.n != -1) { row.push(crearCeldaValoresDiagonales(value.m, value.n)); }
+                    if (value.m != -1 && value.n === -1) { row.push(crearCeldaValoresDiagonales(value.m, '')); }
+                    if (value.n != -1 && value.m === -1) { row.push(crearCeldaValoresDiagonales('', value.n)); }
                 }
             } else {
                 // La celda no tiene un valor en data, es de tipo input
