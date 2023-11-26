@@ -970,7 +970,7 @@ function solveKakuro(r, c, S, K) {
             }
             console.log("Elementos para la fila: " + elementsFila)
 
-            const combinationsRow = getCombinationsWithSum(elementsFila, cantVaciasFila, valorPistaFila, listaActualFila);
+            const combinationsRow = getCombinationsWithSum(elementsFila, cantVaciasFila, valorPistaFila);
 
             console.log("Combinaciones para la fila: " + combinationsRow)
             for (const combination of combinationsRow) {
@@ -1001,7 +1001,7 @@ function solveKakuro(r, c, S, K) {
 
             }
             console.log("Elementos para la columna: " + elementsColumna)
-            const combinationsColumn = getCombinationsWithSum(elementsColumna, cantVaciasColumna, valorPistaColumna, listaActualColumna);
+            const combinationsColumn = getCombinationsWithSum(elementsColumna, cantVaciasColumna, valorPistaColumna);
             console.log("Combinaciones para la columna: " + combinationsColumn)
             for (const combination of combinationsColumn) {
                 console.log(combination.join(', '));
