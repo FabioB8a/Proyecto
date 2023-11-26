@@ -970,7 +970,7 @@ function solveKakuro(r, c, S, K) {
             }
             console.log("Elementos para la fila: " + elementsFila)
 
-            const combinationsRow = getCombinationsWithSum(elementsFila, cantVaciasFila, valorPistaFila);
+            const combinationsRow = getCombinationsWithSum(elementsFila, cantVaciasFila+listaActualFila.length, valorPistaFila);
 
             console.log("Combinaciones para la fila: " + combinationsRow)
             for (const combination of combinationsRow) {
@@ -980,8 +980,10 @@ function solveKakuro(r, c, S, K) {
             //Eliminar las combinaciones que no contengan los elementos de la lista actual si la lista no está vacía
             if (listaActualFila.length !== 0) {
                 for(combination of combinationsRow){
+                    console.log("La combinacion actual es: " + combination);
                     if(combination.includes(listaActualFila)){
-                        newCombinationsRow.push(combination)
+                        newCombinationsRow.push(combination);
+                        console.log("La combinación agregada es ", combination);
                     }
                 }
                 console.log("Combinaciones nuevas para la fila: " + newCombinationsRow)
@@ -1001,7 +1003,7 @@ function solveKakuro(r, c, S, K) {
 
             }
             console.log("Elementos para la columna: " + elementsColumna)
-            const combinationsColumn = getCombinationsWithSum(elementsColumna, cantVaciasColumna, valorPistaColumna);
+            const combinationsColumn = getCombinationsWithSum(elementsColumna, cantVaciasColumna+listaActualColumna.length, valorPistaColumna);
             console.log("Combinaciones para la columna: " + combinationsColumn)
             for (const combination of combinationsColumn) {
                 console.log(combination.join(', '));
@@ -1012,7 +1014,7 @@ function solveKakuro(r, c, S, K) {
             if (listaActualColumna.length !== 0) {
                 for(combination of combinationsColumn){
                     if(combination.includes(listaActualColumna)){
-                        newCombinationsColumn.push(combination)
+                        newCombinationsColumn.push(combination);
                     }
                 }
                 console.log("Combinaciones nuevas para la columna: " + newCombinationsColumn)
